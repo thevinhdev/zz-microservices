@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace IOIT.Identity.Application.Common.Behaviours
 {
-    public class PerformanceBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    public class PerformanceBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : MediatR.IRequest<TResponse>
     {
         private readonly Stopwatch _timer;
         private readonly ILogger<TRequest> _logger;
@@ -60,6 +60,11 @@ namespace IOIT.Identity.Application.Common.Behaviours
                 _logger.LogInformation($"[MonitorLog]- End call service method: {request}.{method}. It takes: {elapsedMilliseconds} milliseconds. User: 1");
             }
             return response;
+        }
+
+        public Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
         }
     }
 }

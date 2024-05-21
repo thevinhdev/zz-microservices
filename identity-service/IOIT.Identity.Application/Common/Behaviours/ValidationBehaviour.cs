@@ -11,7 +11,7 @@ using ValidationException = IOIT.Identity.Application.Common.Exceptions.Validati
 
 namespace IOIT.Identity.Application.Common.Behaviours
 {
-    public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> 
         where TRequest : IRequest<TResponse>
     {
         private readonly IEnumerable<IValidator<TRequest>> _validators;
@@ -64,6 +64,11 @@ namespace IOIT.Identity.Application.Common.Behaviours
             //            item.ErrorMessage = tran;
             //    }
             //}
+        }
+
+        public Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
         }
     }
 }

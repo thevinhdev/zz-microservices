@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace IOIT.Identity.Application.Common.Behaviours
 {
-    public class CacheBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    public class CacheBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
     {
         private readonly ICacheService _cacheService;
         private readonly ILogger<TRequest> _logger;
@@ -24,13 +24,18 @@ namespace IOIT.Identity.Application.Common.Behaviours
             _logger = logger;
         }
 
+        public Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
             var type = typeof(TRequest);
             var cacheAttribute = type.GetCustomAttributes(typeof(AppCacheAttribute))
                 .FirstOrDefault() as AppCacheAttribute;
 
-            if(cacheAttribute == null)
+            if (cacheAttribute == null)
             {
                 return await next();
             }
@@ -38,7 +43,7 @@ namespace IOIT.Identity.Application.Common.Behaviours
             var cacheKey = string.IsNullOrEmpty(cacheAttribute.FixKey) ? BuildKeyBasedOnMethod() : cacheAttribute.FixKey;
             var cacheResponse = _cacheService.GetCache<TResponse>(cacheKey);
 
-            if(cacheResponse != null)
+            if (cacheResponse != null)
             {
                 _logger.LogDebug($"Response retrieved {typeof(TRequest).FullName} from cache. CacheKey: {cacheKey}");
 

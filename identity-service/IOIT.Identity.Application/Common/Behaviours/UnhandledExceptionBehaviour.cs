@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IOIT.Identity.Application.Common.Behaviours
 {
-    class UnhandledExceptionBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    class UnhandledExceptionBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : MediatR.IRequest<TResponse>
     {
         private readonly ILogger<TRequest> _logger;
 
@@ -28,6 +28,11 @@ namespace IOIT.Identity.Application.Common.Behaviours
 
                 throw;
             }
+        }
+
+        public Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
         }
     }
 }
