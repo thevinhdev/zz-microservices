@@ -140,227 +140,228 @@ namespace IOIT.Identity.Api
 
             services.AddHttpClient();
 
-            services.AddMassTransit(x => {
+            services.AddMassTransit(x =>
+            {
 
-                x.AddConsumer<CreateProjectConfirmedConsumer>();
-                x.AddConsumer<UpdateProjectConfirmedConsumer>();
-                x.AddConsumer<CreateFloorConfirmedConsumer>();
-                x.AddConsumer<UpdateFloorConfirmedConsumer>();
-                x.AddConsumer<CreateTowerConfirmedConsumer>();
-                x.AddConsumer<UpdateTowerConfirmedConsumer>();
-                x.AddConsumer<CreateApartmentConfirmedConsumer>();
-                x.AddConsumer<UpdateApartmentConfirmedConsumer>();
-                x.AddConsumer<CreateDepartmentConfirmedConsumer>();
-                x.AddConsumer<UpdateDepartmentConfirmedConsumer>();
-                x.AddConsumer<CreateTypeAttributeItemConfirmedConsumer>();
-                x.AddConsumer<UpdateTypeAttributeItemConfirmedConsumer>();
-                x.AddConsumer<UtilitiesResidentUpdateConsumer>();
-                x.AddConsumer<UtilitiesResidentUpdateStatusConsumer>();
-                x.AddConsumer<UpdateUserInfoFirebaseConsumer>();
-                x.AddConsumer<CommonApartmentMapConsumer>();
+                //x.AddConsumer<CreateProjectConfirmedConsumer>();
+                //x.AddConsumer<UpdateProjectConfirmedConsumer>();
+                //x.AddConsumer<CreateFloorConfirmedConsumer>();
+                //x.AddConsumer<UpdateFloorConfirmedConsumer>();
+                //x.AddConsumer<CreateTowerConfirmedConsumer>();
+                //x.AddConsumer<UpdateTowerConfirmedConsumer>();
+                //x.AddConsumer<CreateApartmentConfirmedConsumer>();
+                //x.AddConsumer<UpdateApartmentConfirmedConsumer>();
+                //x.AddConsumer<CreateDepartmentConfirmedConsumer>();
+                //x.AddConsumer<UpdateDepartmentConfirmedConsumer>();
+                //x.AddConsumer<CreateTypeAttributeItemConfirmedConsumer>();
+                //x.AddConsumer<UpdateTypeAttributeItemConfirmedConsumer>();
+                //x.AddConsumer<UtilitiesResidentUpdateConsumer>();
+                //x.AddConsumer<UtilitiesResidentUpdateStatusConsumer>();
+                //x.AddConsumer<UpdateUserInfoFirebaseConsumer>();
+                //x.AddConsumer<CommonApartmentMapConsumer>();
 
-                x.UsingRabbitMq((ctx, cfg) => {
-                    cfg.Host(Configuration["RabbitMQConnection:HostAddress"],
-                        5672,
-                        "/",
-                        h =>
-                        {
-                            h.Username(Configuration["RabbitMQConnection:UserName"]);
-                            h.Password(Configuration["RabbitMQConnection:Password"]);
-                        });
+                x.UsingRabbitMq((ctx, cfg) =>
+                {
+                    //cfg.Host(Configuration["RabbitMQConnection:HostAddress"],
+                    //    5672,
+                    //    "/",
+                    //    h =>
+                    //    {
+                    //        h.Username(Configuration["RabbitMQConnection:UserName"]);
+                    //        h.Password(Configuration["RabbitMQConnection:Password"]);
+                    //    });
 
-                    cfg.UseHealthCheck(ctx);
+                    //cfg.UseHealthCheck(ctx);
 
-                    cfg.ReceiveEndpoint(CommonServiceQueues.CommonProjectCreatedQueue.NameIdentityQueue, c =>
-                    {
-                        c.ConfigureConsumer<CreateProjectConfirmedConsumer>(ctx);
-                        c.Bind(CommonServiceQueues.CommonProjectCreatedQueue.NameExchange, x =>
-                        {
-                            x.ExchangeType = ExchangeType.Fanout;
-                        });
-                    });
+                    //cfg.ReceiveEndpoint(CommonServiceQueues.CommonProjectCreatedQueue.NameIdentityQueue, c =>
+                    //{
+                    //    c.ConfigureConsumer<CreateProjectConfirmedConsumer>(ctx);
+                    //    c.Bind(CommonServiceQueues.CommonProjectCreatedQueue.NameExchange, x =>
+                    //    {
+                    //        x.ExchangeType = ExchangeType.Fanout;
+                    //    });
+                    //});
 
-                    cfg.ReceiveEndpoint(CommonServiceQueues.CommonProjectUpdatedQueue.NameIdentityQueue, c =>
-                    {
-                        c.ConfigureConsumer<UpdateProjectConfirmedConsumer>(ctx);
-                        c.Bind(CommonServiceQueues.CommonProjectUpdatedQueue.NameExchange, x =>
-                        {
-                            x.ExchangeType = ExchangeType.Fanout;
-                        });
-                    });
+                    //cfg.ReceiveEndpoint(CommonServiceQueues.CommonProjectUpdatedQueue.NameIdentityQueue, c =>
+                    //{
+                    //    c.ConfigureConsumer<UpdateProjectConfirmedConsumer>(ctx);
+                    //    c.Bind(CommonServiceQueues.CommonProjectUpdatedQueue.NameExchange, x =>
+                    //    {
+                    //        x.ExchangeType = ExchangeType.Fanout;
+                    //    });
+                    //});
 
-                    cfg.ReceiveEndpoint(CommonServiceQueues.CommonTowerCreatedQueue.NameIdentityQueue, c =>
-                    {
-                        c.ConfigureConsumer<CreateTowerConfirmedConsumer>(ctx);
-                        c.Bind(CommonServiceQueues.CommonTowerCreatedQueue.NameExchange, x =>
-                        {
-                            x.ExchangeType = ExchangeType.Fanout;
-                        });
-                    });
+                    //cfg.ReceiveEndpoint(CommonServiceQueues.CommonTowerCreatedQueue.NameIdentityQueue, c =>
+                    //{
+                    //    c.ConfigureConsumer<CreateTowerConfirmedConsumer>(ctx);
+                    //    c.Bind(CommonServiceQueues.CommonTowerCreatedQueue.NameExchange, x =>
+                    //    {
+                    //        x.ExchangeType = ExchangeType.Fanout;
+                    //    });
+                    //});
 
-                    cfg.ReceiveEndpoint(CommonServiceQueues.CommonTowerUpdatedQueue.NameIdentityQueue, c =>
-                    {
-                        c.ConfigureConsumer<UpdateTowerConfirmedConsumer>(ctx);
-                        c.Bind(CommonServiceQueues.CommonTowerUpdatedQueue.NameExchange, x =>
-                        {
-                            x.ExchangeType = ExchangeType.Fanout;
-                        });
-                    });
+                    //cfg.ReceiveEndpoint(CommonServiceQueues.CommonTowerUpdatedQueue.NameIdentityQueue, c =>
+                    //{
+                    //    c.ConfigureConsumer<UpdateTowerConfirmedConsumer>(ctx);
+                    //    c.Bind(CommonServiceQueues.CommonTowerUpdatedQueue.NameExchange, x =>
+                    //    {
+                    //        x.ExchangeType = ExchangeType.Fanout;
+                    //    });
+                    //});
 
-                    cfg.ReceiveEndpoint(CommonServiceQueues.CommonFloorCreatedQueue.NameIdentityQueue, c =>
-                    {
-                        c.ConfigureConsumer<CreateFloorConfirmedConsumer>(ctx);
-                        c.Bind(CommonServiceQueues.CommonFloorCreatedQueue.NameExchange, x =>
-                        {
-                            x.ExchangeType = ExchangeType.Fanout;
-                        });
-                    });
+                    //cfg.ReceiveEndpoint(CommonServiceQueues.CommonFloorCreatedQueue.NameIdentityQueue, c =>
+                    //{
+                    //    c.ConfigureConsumer<CreateFloorConfirmedConsumer>(ctx);
+                    //    c.Bind(CommonServiceQueues.CommonFloorCreatedQueue.NameExchange, x =>
+                    //    {
+                    //        x.ExchangeType = ExchangeType.Fanout;
+                    //    });
+                    //});
 
-                    cfg.ReceiveEndpoint(CommonServiceQueues.CommonFloorUpdatedQueue.NameIdentityQueue, c =>
-                    {
-                        c.ConfigureConsumer<UpdateFloorConfirmedConsumer>(ctx);
-                        c.Bind(CommonServiceQueues.CommonFloorUpdatedQueue.NameExchange, x =>
-                        {
-                            x.ExchangeType = ExchangeType.Fanout;
-                        });
-                    });
+                    //cfg.ReceiveEndpoint(CommonServiceQueues.CommonFloorUpdatedQueue.NameIdentityQueue, c =>
+                    //{
+                    //    c.ConfigureConsumer<UpdateFloorConfirmedConsumer>(ctx);
+                    //    c.Bind(CommonServiceQueues.CommonFloorUpdatedQueue.NameExchange, x =>
+                    //    {
+                    //        x.ExchangeType = ExchangeType.Fanout;
+                    //    });
+                    //});
 
-                    cfg.ReceiveEndpoint(CommonServiceQueues.CommonApartmentCreatedQueue.NameIdentityQueue, c =>
-                    {
-                        c.ConfigureConsumer<CreateApartmentConfirmedConsumer>(ctx);
-                        c.Bind(CommonServiceQueues.CommonApartmentCreatedQueue.NameExchange, x =>
-                        {
-                            x.ExchangeType = ExchangeType.Fanout;
-                        });
-                    });
+                    //cfg.ReceiveEndpoint(CommonServiceQueues.CommonApartmentCreatedQueue.NameIdentityQueue, c =>
+                    //{
+                    //    c.ConfigureConsumer<CreateApartmentConfirmedConsumer>(ctx);
+                    //    c.Bind(CommonServiceQueues.CommonApartmentCreatedQueue.NameExchange, x =>
+                    //    {
+                    //        x.ExchangeType = ExchangeType.Fanout;
+                    //    });
+                    //});
 
-                    cfg.ReceiveEndpoint(CommonServiceQueues.CommonApartmentUpdatedQueue.NameIdentityQueue, c =>
-                    {
-                        c.ConfigureConsumer<UpdateApartmentConfirmedConsumer>(ctx);
-                        c.Bind(CommonServiceQueues.CommonApartmentUpdatedQueue.NameExchange, x =>
-                        {
-                            x.ExchangeType = ExchangeType.Fanout;
-                        });
-                    });
+                    //cfg.ReceiveEndpoint(CommonServiceQueues.CommonApartmentUpdatedQueue.NameIdentityQueue, c =>
+                    //{
+                    //    c.ConfigureConsumer<UpdateApartmentConfirmedConsumer>(ctx);
+                    //    c.Bind(CommonServiceQueues.CommonApartmentUpdatedQueue.NameExchange, x =>
+                    //    {
+                    //        x.ExchangeType = ExchangeType.Fanout;
+                    //    });
+                    //});
 
-                    cfg.ReceiveEndpoint(CommonServiceQueues.CommonDepartmentCreatedQueue.NameIdentityQueue, c =>
-                    {
-                        c.ConfigureConsumer<CreateDepartmentConfirmedConsumer>(ctx);
-                        c.Bind(CommonServiceQueues.CommonDepartmentCreatedQueue.NameExchange, x =>
-                        {
-                            x.ExchangeType = ExchangeType.Fanout;
-                        });
-                    });
+                    //cfg.ReceiveEndpoint(CommonServiceQueues.CommonDepartmentCreatedQueue.NameIdentityQueue, c =>
+                    //{
+                    //    c.ConfigureConsumer<CreateDepartmentConfirmedConsumer>(ctx);
+                    //    c.Bind(CommonServiceQueues.CommonDepartmentCreatedQueue.NameExchange, x =>
+                    //    {
+                    //        x.ExchangeType = ExchangeType.Fanout;
+                    //    });
+                    //});
 
-                    cfg.ReceiveEndpoint(CommonServiceQueues.CommonDepartmentUpdatedQueue.NameIdentityQueue, c =>
-                    {
-                        c.ConfigureConsumer<UpdateDepartmentConfirmedConsumer>(ctx);
-                        c.Bind(CommonServiceQueues.CommonDepartmentUpdatedQueue.NameExchange, x =>
-                        {
-                            x.ExchangeType = ExchangeType.Fanout;
-                        });
-                    });
+                    //cfg.ReceiveEndpoint(CommonServiceQueues.CommonDepartmentUpdatedQueue.NameIdentityQueue, c =>
+                    //{
+                    //    c.ConfigureConsumer<UpdateDepartmentConfirmedConsumer>(ctx);
+                    //    c.Bind(CommonServiceQueues.CommonDepartmentUpdatedQueue.NameExchange, x =>
+                    //    {
+                    //        x.ExchangeType = ExchangeType.Fanout;
+                    //    });
+                    //});
 
-                    cfg.ReceiveEndpoint(CommonServiceQueues.CommonTypeAttributeItemCreatedQueue.NameIdentityQueue, c =>
-                    {
-                        c.ConfigureConsumer<CreateTypeAttributeItemConfirmedConsumer>(ctx);
-                        c.Bind(CommonServiceQueues.CommonTypeAttributeItemCreatedQueue.NameExchange, x =>
-                        {
-                            x.ExchangeType = ExchangeType.Fanout;
-                        });
-                    });
+                    //cfg.ReceiveEndpoint(CommonServiceQueues.CommonTypeAttributeItemCreatedQueue.NameIdentityQueue, c =>
+                    //{
+                    //    c.ConfigureConsumer<CreateTypeAttributeItemConfirmedConsumer>(ctx);
+                    //    c.Bind(CommonServiceQueues.CommonTypeAttributeItemCreatedQueue.NameExchange, x =>
+                    //    {
+                    //        x.ExchangeType = ExchangeType.Fanout;
+                    //    });
+                    //});
 
-                    cfg.ReceiveEndpoint(CommonServiceQueues.CommonTypeAttributeItemUpdatedQueue.NameIdentityQueue, c =>
-                    {
-                        c.ConfigureConsumer<UpdateTypeAttributeItemConfirmedConsumer>(ctx);
-                        c.Bind(CommonServiceQueues.CommonTypeAttributeItemUpdatedQueue.NameExchange, x =>
-                        {
-                            x.ExchangeType = ExchangeType.Fanout;
-                        });
-                    });
+                    //cfg.ReceiveEndpoint(CommonServiceQueues.CommonTypeAttributeItemUpdatedQueue.NameIdentityQueue, c =>
+                    //{
+                    //    c.ConfigureConsumer<UpdateTypeAttributeItemConfirmedConsumer>(ctx);
+                    //    c.Bind(CommonServiceQueues.CommonTypeAttributeItemUpdatedQueue.NameExchange, x =>
+                    //    {
+                    //        x.ExchangeType = ExchangeType.Fanout;
+                    //    });
+                    //});
 
-                    cfg.ReceiveEndpoint(UtilitiesResidentUpdateStatusQueue.NameIdentityQueue, c =>
-                    {
-                        c.ConfigureConsumer<UtilitiesResidentUpdateStatusConsumer>(ctx);
-                        c.Bind(UtilitiesResidentUpdateStatusQueue.NameExchange, x =>
-                        {
-                            x.ExchangeType = ExchangeType.Fanout;
-                        });
-                    });
+                    //cfg.ReceiveEndpoint(UtilitiesResidentUpdateStatusQueue.NameIdentityQueue, c =>
+                    //{
+                    //    c.ConfigureConsumer<UtilitiesResidentUpdateStatusConsumer>(ctx);
+                    //    c.Bind(UtilitiesResidentUpdateStatusQueue.NameExchange, x =>
+                    //    {
+                    //        x.ExchangeType = ExchangeType.Fanout;
+                    //    });
+                    //});
 
-                    cfg.ReceiveEndpoint(UtilitiesResidentUpdateQueue.NameIdentityQueue, c =>
-                    {
-                        c.ConfigureConsumer<UtilitiesResidentUpdateConsumer>(ctx);
-                        c.Bind(UtilitiesResidentUpdateQueue.NameExchange, x =>
-                        {
-                            x.ExchangeType = ExchangeType.Fanout;
-                        });
-                    });
+                    //cfg.ReceiveEndpoint(UtilitiesResidentUpdateQueue.NameIdentityQueue, c =>
+                    //{
+                    //    c.ConfigureConsumer<UtilitiesResidentUpdateConsumer>(ctx);
+                    //    c.Bind(UtilitiesResidentUpdateQueue.NameExchange, x =>
+                    //    {
+                    //        x.ExchangeType = ExchangeType.Fanout;
+                    //    });
+                    //});
 
-                    cfg.ReceiveEndpoint(CommonServiceQueues.CommonApartmentMapMapQueue.NameIdentityQueue, c =>
-                    {
-                        c.ConfigureConsumer<CommonApartmentMapConsumer>(ctx);
-                        c.Bind(CommonServiceQueues.CommonApartmentMapMapQueue.NameExchange, x =>
-                        {
-                            x.ExchangeType = ExchangeType.Fanout;
-                        });
-                    });
+                    //cfg.ReceiveEndpoint(CommonServiceQueues.CommonApartmentMapMapQueue.NameIdentityQueue, c =>
+                    //{
+                    //    c.ConfigureConsumer<CommonApartmentMapConsumer>(ctx);
+                    //    c.Bind(CommonServiceQueues.CommonApartmentMapMapQueue.NameExchange, x =>
+                    //    {
+                    //        x.ExchangeType = ExchangeType.Fanout;
+                    //    });
+                    //});
 
-                    cfg.ReceiveEndpoint(InvoiceServiceQueues.InvoiceUpdateUserInfoFirebaseQueue.Name, c =>
-                    {
-                        c.ConfigureConsumer<UpdateUserInfoFirebaseConsumer>(ctx);
-                    });
+                    //cfg.ReceiveEndpoint(InvoiceServiceQueues.InvoiceUpdateUserInfoFirebaseQueue.Name, c =>
+                    //{
+                    //    c.ConfigureConsumer<UpdateUserInfoFirebaseConsumer>(ctx);
+                    //});
 
-                    //Producers
-                    cfg.Message<DtoCommonEmployeeQueue>(e => e.SetEntityName(IdentityServiceQueues.CommonEmployeeQueue.NameExchange));
-                    cfg.Publish<DtoCommonEmployeeQueue>(x =>
-                    {
-                        x.ExchangeType = ExchangeType.Fanout; // default, allows any valid exchange type
-                    });
+                    ////Producers
+                    //cfg.Message<DtoCommonEmployeeQueue>(e => e.SetEntityName(IdentityServiceQueues.CommonEmployeeQueue.NameExchange));
+                    //cfg.Publish<DtoCommonEmployeeQueue>(x =>
+                    //{
+                    //    x.ExchangeType = ExchangeType.Fanout; // default, allows any valid exchange type
+                    //});
 
-                    cfg.Message<DtoCommonEmployeeMapQueue>(e => e.SetEntityName(IdentityServiceQueues.CommonEmployeeMapQueue.NameExchange));
-                    cfg.Publish<DtoCommonEmployeeMapQueue>(x =>
-                    {
-                        x.ExchangeType = ExchangeType.Fanout; // default, allows any valid exchange type
-                    });
+                    //cfg.Message<DtoCommonEmployeeMapQueue>(e => e.SetEntityName(IdentityServiceQueues.CommonEmployeeMapQueue.NameExchange));
+                    //cfg.Publish<DtoCommonEmployeeMapQueue>(x =>
+                    //{
+                    //    x.ExchangeType = ExchangeType.Fanout; // default, allows any valid exchange type
+                    //});
 
-                    cfg.Message<DtoCommonEmployeeMapUpdatedQueue>(e => e.SetEntityName(IdentityServiceQueues.CommonEmployeeMapUpdatedQueue.NameExchange));
-                    cfg.Publish<DtoCommonEmployeeMapUpdatedQueue>(x =>
-                    {
-                        x.ExchangeType = ExchangeType.Fanout; // default, allows any valid exchange type
-                    });
+                    //cfg.Message<DtoCommonEmployeeMapUpdatedQueue>(e => e.SetEntityName(IdentityServiceQueues.CommonEmployeeMapUpdatedQueue.NameExchange));
+                    //cfg.Publish<DtoCommonEmployeeMapUpdatedQueue>(x =>
+                    //{
+                    //    x.ExchangeType = ExchangeType.Fanout; // default, allows any valid exchange type
+                    //});
 
-                    cfg.Message<DtoCommonUserQueue>(e => e.SetEntityName(IdentityServiceQueues.CommonUserQueue.NameExchange));
-                    cfg.Publish<DtoCommonUserQueue>(x =>
-                    {
-                        x.ExchangeType = ExchangeType.Fanout; // default, allows any valid exchange type
-                    });
+                    //cfg.Message<DtoCommonUserQueue>(e => e.SetEntityName(IdentityServiceQueues.CommonUserQueue.NameExchange));
+                    //cfg.Publish<DtoCommonUserQueue>(x =>
+                    //{
+                    //    x.ExchangeType = ExchangeType.Fanout; // default, allows any valid exchange type
+                    //});
 
-                    cfg.Message<DtoCommonResidentQueue>(e => e.SetEntityName(IdentityServiceQueues.CommonResidentQueue.NameExchange));
-                    cfg.Publish<DtoCommonResidentQueue>(x =>
-                    {
-                        x.ExchangeType = ExchangeType.Fanout; // default, allows any valid exchange type
-                    });
+                    //cfg.Message<DtoCommonResidentQueue>(e => e.SetEntityName(IdentityServiceQueues.CommonResidentQueue.NameExchange));
+                    //cfg.Publish<DtoCommonResidentQueue>(x =>
+                    //{
+                    //    x.ExchangeType = ExchangeType.Fanout; // default, allows any valid exchange type
+                    //});
 
-                    cfg.Message<DtoCommonResidentUpdateQueue>(e => e.SetEntityName(IdentityServiceQueues.CommonResidentUpdateQueue.NameExchange));
-                    cfg.Publish<DtoCommonResidentUpdateQueue>(x =>
-                    {
-                        x.ExchangeType = ExchangeType.Fanout; // default, allows any valid exchange type
-                    });
+                    //cfg.Message<DtoCommonResidentUpdateQueue>(e => e.SetEntityName(IdentityServiceQueues.CommonResidentUpdateQueue.NameExchange));
+                    //cfg.Publish<DtoCommonResidentUpdateQueue>(x =>
+                    //{
+                    //    x.ExchangeType = ExchangeType.Fanout; // default, allows any valid exchange type
+                    //});
 
-                    cfg.Message<DtoIdentityApartmentMapQueue>(e => e.SetEntityName(IdentityServiceQueues.IdentityApartmentMapQueue.NameExchange));
-                    cfg.Publish<DtoIdentityApartmentMapQueue>(x =>
-                    {
-                        x.ExchangeType = ExchangeType.Fanout; // default, allows any valid exchange type
-                    });
+                    //cfg.Message<DtoIdentityApartmentMapQueue>(e => e.SetEntityName(IdentityServiceQueues.IdentityApartmentMapQueue.NameExchange));
+                    //cfg.Publish<DtoIdentityApartmentMapQueue>(x =>
+                    //{
+                    //    x.ExchangeType = ExchangeType.Fanout; // default, allows any valid exchange type
+                    //});
                 });
             });
 
-
-            services.AddMassTransitHostedService();
+            //services.AddMassTransitHostedService();
 
             //services.AddTokenAuthentication(Configuration);
-            
+
             string domain = Configuration["AppSettings:JwtIssuer"];
             var authenticationProviderKey = "TestKey";
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();

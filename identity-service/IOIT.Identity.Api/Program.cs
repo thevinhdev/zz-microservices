@@ -17,7 +17,7 @@ namespace IOIT.Identity.Api
         public static async Task Main(string[] args)
         {
             //CreateWebHostBuilder(args).Build().Run();
-            var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
+            var logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
             try
             {
                 logger.Debug("init main");

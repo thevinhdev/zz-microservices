@@ -79,11 +79,11 @@ namespace IOIT.Identity.Application.Users.Commands.Update
                     resSendOTP.projectId = exist.ProjectId;
                     string baseApi = _options.Value.baseApi;
                     RestClient client = new RestClient(baseApi);
-                    var requestA = new RestRequest("api/app/SMSBrandname/sendOTP2", Method.POST);
+                    var requestA = new RestRequest("api/app/SMSBrandname/sendOTP2", Method.Post);
                     requestA.AddJsonBody(resSendOTP);
                     requestA.AddHeader("Content-Type", "application/json");
                     //requestA.AddHeader("token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c24iOiJ2bWd0ZXN0MSIsInNpZCI6ImZkMTA5NWM3LTc0NGQtNGUzZS1iODRlLTg2MWUzZDAzMmM2ZiIsIm9idCI6IiIsIm9iaiI6IiIsIm5iZiI6MTU4MzgzNDA3OCwiZXhwIjoxNTgzODM3Njc4LCJpYXQiOjE1ODM4MzQwNzh9.5wS0_iqzHypsZaGFTBtVyTCyHegSWj1onY-hQqw7b40");
-                    IRestResponse response = await client.ExecuteAsync(requestA);
+                    RestResponse response = await client.ExecuteAsync(requestA);
 
                     var content = response.Content; // raw content as string
                     if (content != null)

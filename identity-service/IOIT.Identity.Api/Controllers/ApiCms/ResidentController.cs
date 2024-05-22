@@ -126,6 +126,7 @@ namespace IOIT.Identity.Api.Controllers.ApiCms
                 ));
         }
 
+        [HttpGet("GetList/{id}")]
         public async Task<IActionResult> GetList(long id)
         {
             var resData = await _mediator.Send(new GetListResidentByIdQuery() { Id = id });

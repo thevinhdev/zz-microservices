@@ -236,7 +236,7 @@ namespace IOIT.Identity.Application.Users.Commands.Create
                                 resSendOTP.code = user.RegisterCode;
                                 resSendOTP.projectId = user.ProjectId;
                                 RestClient client = new RestClient(baseApi);
-                                var requestA = new RestRequest("api/app/SMSBrandname/sendOTP2", Method.POST);
+                                var requestA = new RestRequest("api/app/SMSBrandname/sendOTP2", Method.Post);
                                 requestA.AddJsonBody(resSendOTP);
                                 requestA.AddHeader("Content-Type", "application/json");
 
@@ -245,7 +245,7 @@ namespace IOIT.Identity.Application.Users.Commands.Create
 
                                 _logger.Info(logDatapayload);
 
-                                IRestResponse response = await client.ExecuteAsync(requestA);
+                                RestResponse response = await client.ExecuteAsync(requestA);
 
                                 var content = response.Content; // raw content as string
 
