@@ -66,9 +66,23 @@ namespace IOIT.Identity.Application.Common.Behaviours
             //}
         }
 
-        public Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+        public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            List<ValidationFailure> validationFailures;
+            if (_validators.Any())
+            {
+                var context = new ValidationContext<TRequest>(request);
+
+                var validationResults = await Task.WhenAll(_validators.Select(v => v.ValidateAsync(context, cancellationToken)));
+                validationFailures = validationResults.SelectMany(r => r.Errors).Where(f => f != null).ToList();
+
+                if (validationFailures.Count != 0)
+                {
+                    //await ToLanguages();
+                    throw new ValidationException(validationFailures);
+                }
+            }
+            return await next();
         }
     }
 }

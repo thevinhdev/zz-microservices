@@ -24,9 +24,51 @@ namespace IOIT.Identity.Application.Common.Behaviours
             _logger = logger;
         }
 
-        public Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+        public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var type = typeof(TRequest);
+            var cacheAttribute = type.GetCustomAttributes(typeof(AppCacheAttribute))
+                .FirstOrDefault() as AppCacheAttribute;
+
+            if (cacheAttribute == null)
+            {
+                return await next();
+            }
+
+            var cacheKey = string.IsNullOrEmpty(cacheAttribute.FixKey) ? BuildKeyBasedOnMethod() : cacheAttribute.FixKey;
+            var cacheResponse = _cacheService.GetCache<TResponse>(cacheKey);
+
+            if (cacheResponse != null)
+            {
+                _logger.LogDebug($"Response retrieved {typeof(TRequest).FullName} from cache. CacheKey: {cacheKey}");
+
+                return cacheResponse;
+            }
+
+            var response = await next();
+            _logger.LogDebug($"Caching response for {typeof(TRequest).FullName} with cache key: {cacheKey}");
+
+            _cacheService.SaveCache(cacheKey, response);
+
+            return response;
+
+            string BuildKeyBasedOnMethod()
+            {
+                var method = type.Name;
+                var args = JsonConvert.SerializeObject(request, Formatting.None, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore, ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+                var key = $"{method}_{type}_{args}";
+
+                return ComputeHash(key);
+
+                string ComputeHash(string plainText)
+                {
+                    var md5 = MD5.Create();
+
+                    var hashBytes = md5.ComputeHash(Encoding.UTF8.GetBytes(plainText));
+
+                    return BitConverter.ToString(hashBytes).Replace("-", string.Empty);
+                }
+            }
         }
 
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)

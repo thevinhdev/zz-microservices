@@ -30,9 +30,19 @@ namespace IOIT.Identity.Application.Common.Behaviours
             }
         }
 
-        public Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+        public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await next();
+            }
+            catch (Exception ex)
+            {
+                var message = $"[MonitorError]- ThreadId: {Thread.CurrentThread.ManagedThreadId}. {ex.Message}. {ex.StackTrace}";
+                _logger.LogError(message);
+
+                throw;
+            }
         }
     }
 }
