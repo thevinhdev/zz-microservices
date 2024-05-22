@@ -13,6 +13,7 @@ using IOIT.Shared.Helpers;
 using IOIT.Identity.Application.LogSystem.Queries;
 using Microsoft.Net.Http.Headers;
 using Microsoft.Extensions.Configuration;
+using Castle.Core.Resource;
 
 namespace IOIT.Identity.Api.Controllers.ApiCms
 {
@@ -32,10 +33,10 @@ namespace IOIT.Identity.Api.Controllers.ApiCms
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginUserQuery command)
+        public async Task<IActionResult> Login(LoginRequest input)
         {
-            var resData = await _mediator.Send(command);
-
+            //var resData = await _mediator.Send(command);
+            var resData = await _mediator.Send(new LoginUserCmsQuery(input));
             return Res(new DefaultResponse().Success(
                 resData,
                 ApiConstants.MessageResource.ACCTION_SUCCESS,
