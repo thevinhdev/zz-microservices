@@ -21,18 +21,11 @@ using System.Threading.Tasks;
 
 namespace IOIT.Identity.Application.Users.Queries
 {
-    public class LoginRequest
+    public class LoginUserCmsQuery : IRequest<UserLogin>
     {
         public string email { get; set; }
         public string password { get; set; }
     }
-    //public class LoginUserCmsQuery : IRequest<UserLogin>
-    //{
-    //    public string email { get; set; }
-    //    public string password { get; set; }
-    //}
-
-    public record LoginUserCmsQuery(LoginRequest LoginRequest) : IRequest<UserLogin>;
 
     public class LoginUserCmsQueryHandler : IRequestHandler<LoginUserCmsQuery, UserLogin>
     {
@@ -59,9 +52,8 @@ namespace IOIT.Identity.Application.Users.Queries
             _roleRepo = roleRepo;
         }
 
-        public async Task<UserLogin> Handle(LoginUserCmsQuery request1, CancellationToken cancellationToken)
+        public async Task<UserLogin> Handle(LoginUserCmsQuery request, CancellationToken cancellationToken)
         {
-            var request = request1.LoginRequest;
             UserLogin userLogin = new UserLogin();
             var user = await _userRepo.FindByNameAsync(request.email, cancellationToken);
             //var user = db.User.Where(e => e.UserName == username

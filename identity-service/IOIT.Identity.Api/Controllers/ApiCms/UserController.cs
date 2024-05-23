@@ -33,10 +33,9 @@ namespace IOIT.Identity.Api.Controllers.ApiCms
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(LoginRequest input)
+        public async Task<IActionResult> Login(LoginUserCmsQuery command)
         {
-            //var resData = await _mediator.Send(command);
-            var resData = await _mediator.Send(new LoginUserCmsQuery(input));
+            var resData = await _mediator.Send(command);
             return Res(new DefaultResponse().Success(
                 resData,
                 ApiConstants.MessageResource.ACCTION_SUCCESS,
