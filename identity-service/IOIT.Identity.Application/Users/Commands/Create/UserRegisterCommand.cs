@@ -245,7 +245,7 @@ namespace IOIT.Identity.Application.Users.Commands.Create
 
                                 _logger.Info(logDatapayload);
 
-                                RestResponse response = await client.ExecuteAsync(requestA);
+                                var response = await client.ExecuteAsync(requestA);
 
                                 var content = response.Content; // raw content as string
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IOIT.Identity.Application.Common.Behaviours
 {
-    class UnhandledExceptionBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : MediatR.IRequest<TResponse>
+    class UnhandledExceptionBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
     {
         private readonly ILogger<TRequest> _logger;
 
